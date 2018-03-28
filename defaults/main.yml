@@ -1,0 +1,12 @@
+---
+
+server_name: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+ssl_dest_dir: /etc/ssl
+use_ssl: false
+strong_dh_group: false  # Strongly recomended in production. See weakdh.org.
+project_name: test_project
+project_path: "/webapps/{{ project_name }}"
+media_path: "{{ project_path }}/media/"
+media_url: "/media/"
+static_path: "{{ project_path }}/static/"
+static_url: "/static/"
