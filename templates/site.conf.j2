@@ -1,7 +1,11 @@
 {% if use_ssl %}
 server {
     listen      80;
-    server_name {% for server_name in nginx_server_names }{{ server_name }} {% endfor %};
+    {% if nginx_server_names is defined %}
+    server_name {% for server_name in nginx_server_names %}{{ server_name }} {% endfor %};
+    {% else %}
+    server_name {{ nginx_server_name }};
+    {% endif %}
     return     301 https://{{ nginx_server_name }}$request_uri;
 }
 
