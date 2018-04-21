@@ -2,7 +2,7 @@
 server {
     listen      80;
     {% if nginx_server_names is defined %}
-    server_name {% for server_name in nginx_server_names %}{{ server_name }} {% endfor %};
+    server_name {% for server_name in nginx_server_names %}{{ server_name }}{% if not loop.last %} {% endif %}{% endfor %};
     {% else %}
     server_name {{ nginx_server_name }};
     {% endif %}
@@ -20,6 +20,10 @@ server {
     ssl_prefer_server_ciphers on;
     ssl_dhparam          /etc/ssl/certs/dhparams.pem;
     
+    if ($host !~* ^({{ nginx_server_name }})$ ) {
+        return 444;
+    }
+
     client_max_body_size 10M;
     location = /favicon.ico { access_log off; log_not_found off; }
 
